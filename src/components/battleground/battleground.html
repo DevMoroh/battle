@@ -1,0 +1,45 @@
+
+<div>
+    <div class="pannel">
+        <button ng-click="$ctrl.setBattle()" ng-disabled="$ctrl.statusGame">Start</button>
+        <button ng-click="$ctrl.resetBattle()" ng-disabled="!$ctrl.statusGame">Restart</button>
+    </div>
+    <div class="battle-area bot">
+        <h3>Your area</h3>
+        <table ng-show="$ctrl.ships" class="ships-list">
+            <tr ng-repeat="ship in $ctrl.ships.player">
+                <td>
+                    {{ship.type}} пл.
+                </td>
+                <td ng-class="{'live':ship.live, 'kill':!ship.live}">
+                </td>
+            </tr>
+        </table>
+
+        <table class="matrix-sea">
+            <tr ng-repeat="m in $ctrl._matrixSea.bot">
+                <td ng-repeat="td in m track by $index" ng-class="{'ship-block':td.fire, 'fire-block':(td.ship) ? false : td.fire}"
+                    ng-click="$ctrl.shootPlayer($parent.$index, $index, td)"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="battle-area player">
+        <h3>Bot area</h3>
+        <table ng-show="$ctrl.ships" class="ships-list">
+            <tr ng-repeat="ship in $ctrl.ships.bot">
+                <td>
+                    {{ship.type}} пл.
+                </td>
+                <td ng-class="{'live':ship.live, 'kill':!ship.live}">
+                </td>
+            </tr>
+        </table>
+        <table class="matrix-sea">
+            <tr ng-repeat="m in $ctrl._matrixSea.player track by $index">
+                <td ng-repeat="td in m" ng-class="{'ship-block':(td.ship && !td.fire), 'fire-block':(td.fire && td.ship)}">
+                    {{(td.fire && !td.ship) ? 1 : ''}}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
